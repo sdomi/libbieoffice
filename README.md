@@ -2,13 +2,13 @@
 Download and run libbie.sh
 
 `./libbie.sh --splash`
-
+or
 `./libbie.sh --all`
 
 or download the whole repo and run
 
 `./libbie.sh --splash --local`
-
+or
 `./libbie.sh --all --local`.
 
 
