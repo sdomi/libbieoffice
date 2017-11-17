@@ -33,6 +33,7 @@ if [[ $1 == "--all" || $2 == "--all" ]]; then
 		wget http://github.com/redsPL/libbieoffice/raw/master/libreoffice-impress.png -q
 		wget http://github.com/redsPL/libbieoffice/raw/master/libreoffice-math.png -q
 		wget http://github.com/redsPL/libbieoffice/raw/master/libreoffice-writer.png -q
+		wget http://github.com/redsPL/libbieoffice/raw/master/libreoffice-misc.png -q
 		echo "Downloading High Contrast (B/W) icons..."
 		cd HighContrast
 		wget http://github.com/redsPL/libbieoffice/raw/master/HighContrast/libreoffice-base.png -q
@@ -41,6 +42,7 @@ if [[ $1 == "--all" || $2 == "--all" ]]; then
 		wget http://github.com/redsPL/libbieoffice/raw/master/HighContrast/libreoffice-impress.png -q 
 		wget http://github.com/redsPL/libbieoffice/raw/master/HighContrast/libreoffice-math.png -q
 		wget http://github.com/redsPL/libbieoffice/raw/master/HighContrast/libreoffice-writer.png -q
+		wget http://github.com/redsPL/libbieoffice/raw/master/HighContrast/libreoffice-misc.png -q
 		echo "OK, download done."
 		cd ..
 	fi
@@ -90,6 +92,53 @@ if [[ $1 == "--all" || $2 == "--all" ]]; then
 		cp -Rf *.png /usr/share/icons/HighContrast/256x256/apps/
 		cd ../512x512
 		cp -Rf *.png /usr/share/icons/HighContrast/512x512/apps/
+		cd ../
+		echo "Copying icons to mimetypes (this may take a while)..."
+		res="32x32"
+		type="hicolor"
+		while true; do
+			cd "../"$res"/" # \/ THESE SHOULD BE ln -s
+			cp libreoffice-draw.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-drawing-template.png"
+			cp libreoffice-writer.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-text-template.png"
+			cp libreoffice-impress.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-presentation.png"
+			cp libreoffice-math.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-formula.png"
+			cp libreoffice-impress.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-presentation.png"
+			cp libreoffice-misc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-master-document.png"
+			cp libreoffice-math.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-formula.png"
+			cp libreoffice-calc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-spreadsheet.png"
+			cp libreoffice-writer.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-text.png"
+			cp libreoffice-misc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-extension.png"
+			cp libreoffice-writer.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-text-template.png"
+			cp libreoffice-misc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-master-document.png"
+			cp libreoffice-base.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-database.png"
+			cp libreoffice-misc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-web-template.png"
+			cp libreoffice-calc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-spreadsheet-template.png"
+			cp libreoffice-draw.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-drawing.png"
+			cp libreoffice-writer.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-text.png"
+			cp libreoffice-draw.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-drawing-template.png"
+			cp libreoffice-impress.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-presentation-template.png"
+			cp libreoffice-draw.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-drawing.png"
+			cp libreoffice-base.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-database.png"
+			cp libreoffice-calc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-spreadsheet.png"
+			cp libreoffice-calc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-spreadsheet-template.png"
+			cp libreoffice-impress.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-presentation-template.png"
+			if [[ $res == "32x32" ]]; then
+				res="48x48";
+			elif [[ $res == "48x48" ]]; then
+				res="64x64";
+			elif [[ $res == "64x64" ]]; then
+				res="256x256";
+			elif [[ $res == "256x256" ]]; then
+				res="512x512";
+			elif [[ $res == "512x512" ]]; then
+				if [[ $type == "hicolor" ]]; then
+					type="gnome";
+					res="32x32";
+				elif [[ $type == "gnome" ]]; then
+					break
+				fi
+			fi
+		done
 		echo "If everything went smoothly, you should have new icons installed."
 		echo "Enjoy! :>"
 	fi
