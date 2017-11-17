@@ -142,12 +142,15 @@ if [[ $1 == "--all" || $2 == "--all" ]]; then
 	done
 	cd ..
 	echo "Copying built-in LO icons.."
+	if [[ $1 != "--local" && $2 != "--local" ]]; then
+		wget "$GH_REPOSITORY/raw/master/images_galaxy.zip"
+	fi
 	cp -Rf images_galaxy.zip /usr/share/libreoffice/share/config/images_galaxy.zip
 	echo "Done!";echo""
 	echo "If everything went smoothly, you should have new icons installed."
 	echo "Enjoy! :>";echo ""
-	echo "PS: if something crashed, it doesn't mean that nothing was installed;"
-	echo "    basically some systems don't have icon folders for some resolutions,"
+	echo "PS: if something crashed, it doesn't mean that installation failed;"
+	echo "    Some systems don't have icon folders for some resolutions,"
 	echo "    and that's why some copy errors may occur."
 	echo "    Please also make sure that you can write to /usr/, usually sudo will do."
 	fi
