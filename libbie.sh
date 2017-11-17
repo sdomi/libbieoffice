@@ -23,10 +23,9 @@ if [[ $1 == "--splash" || $2 == "--splash" || $1 == "--all" || $2 == "--all" ]];
 fi
 if [[ $1 == "--all" || $2 == "--all" ]]; then
 	if [[ $1 != "--local" && $2 != "--local" ]]; then
-		mkdir libbie_icons
+		mkdir libbie_icons mkdir libbie_icons/HighContrast
 		cd libbie_icons
 		mv intro.png intro.png.1
-		mkdir HighContrast 32x32 48x48 64x64 256x256 512x512 HighContrast/22x22 HighContrast/24x24 HighContrast/32x32 HighContrast/48x48 HighContrast/256x256 HighContrast/512x512
 		echo "Downloading icons..."
 		wget "$GH_REPOSITORY/raw/master/libreoffice-base.png" -q
 		wget "$GH_REPOSITORY/raw/master/libreoffice-calc.png" -q
@@ -47,100 +46,105 @@ if [[ $1 == "--all" || $2 == "--all" ]]; then
 		echo "OK, download done."
 		cd ..
 	fi
-		echo "Converting icons to..."
-		echo "32x32"
-		mogrify -resize 32x32 -path 32x32 *.png
-		echo "48x48"
-		mogrify -resize 48x48 -path 48x48/ *.png
-		echo "64x64"
-		mogrify -resize 64x64 -path 64x64/ *.png
-		echo "256x256"
-		mogrify -resize 256x256 -path 256x256/ *.png
-		cp *.png 512x512/
-		cd HighContrast
-		echo "22x22 (B/W)"
-		mogrify -resize 22x22 -path 22x22/ *.png
-		echo "24x24 (B/W)"
-		mogrify -resize 24x24 -path 24x24/ *.png
-		echo "32x32 (B/W)"
-		mogrify -resize 32x32 -path 32x32/ *.png
-		echo "256x256 (B/W)"
-		mogrify -resize 256x256 -path 256x256/ *.png
-		cp *.png 512x512/
-		echo "Conversion done."
-		echo "Copying color icons.."
-		cd ../32x32
-		cp -Rf *.png /usr/share/icons/hicolor/32x32/apps/
-		cp -Rf *.png /usr/share/icons/hicolor/32x32/mimetypes/
-		cd ../48x48
-		cp -Rf *.png /usr/share/icons/hicolor/48x48/apps/
-		cd ../64x64
-		cp -Rf *.png /usr/share/icons/hicolor/64x64/apps/
-		cd ../256x256
-		cp -Rf *.png /usr/share/icons/hicolor/256x256/apps/
-		cd ../512x512
-		cp -Rf *.png /usr/share/icons/hicolor/512x512/apps/
-		echo "Copying B/W icons.."
-		cd ../HighContrast/22x22
-		cp -Rf *.png /usr/share/icons/HighContrast/22x22/apps/
-		cd ../24x24
-		cp -Rf *.png /usr/share/icons/HighContrast/24x24/apps/
-		cd ../32x32
-		cp -Rf *.png /usr/share/icons/HighContrast/32x32/apps/
-		cd ../48x48
-		cp -Rf *.png /usr/share/icons/HighContrast/48x48/apps/
-		cd ../256x256
-		cp -Rf *.png /usr/share/icons/HighContrast/256x256/apps/
-		cd ../512x512
-		cp -Rf *.png /usr/share/icons/HighContrast/512x512/apps/
-		cd ../
-		echo "Copying icons to mimetypes (this may take a while)..."
-		res="32x32"
-		type="hicolor"
-		while true; do
-			cd "../"$res"/" # \/ THESE SHOULD BE ln -s
-			cp libreoffice-draw.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-drawing-template.png"
-			cp libreoffice-writer.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-text-template.png"
-			cp libreoffice-impress.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-presentation.png"
-			cp libreoffice-math.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-formula.png"
-			cp libreoffice-impress.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-presentation.png"
-			cp libreoffice-misc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-master-document.png"
-			cp libreoffice-math.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-formula.png"
-			cp libreoffice-calc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-spreadsheet.png"
-			cp libreoffice-writer.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-text.png"
-			cp libreoffice-misc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-extension.png"
-			cp libreoffice-writer.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-text-template.png"
-			cp libreoffice-misc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-master-document.png"
-			cp libreoffice-base.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-database.png"
-			cp libreoffice-misc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-web-template.png"
-			cp libreoffice-calc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-spreadsheet-template.png"
-			cp libreoffice-draw.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-drawing.png"
-			cp libreoffice-writer.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-text.png"
-			cp libreoffice-draw.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-drawing-template.png"
-			cp libreoffice-impress.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-presentation-template.png"
-			cp libreoffice-draw.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-drawing.png"
-			cp libreoffice-base.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-database.png"
-			cp libreoffice-calc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-spreadsheet.png"
-			cp libreoffice-calc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-spreadsheet-template.png"
-			cp libreoffice-impress.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-presentation-template.png"
-			if [[ $res == "32x32" ]]; then
-				res="48x48";
-			elif [[ $res == "48x48" ]]; then
-				res="64x64";
-			elif [[ $res == "64x64" ]]; then
-				res="256x256";
-			elif [[ $res == "256x256" ]]; then
-				res="512x512";
-			elif [[ $res == "512x512" ]]; then
-				if [[ $type == "hicolor" ]]; then
-					type="gnome";
-					res="32x32";
-				elif [[ $type == "gnome" ]]; then
-					break
-				fi
+	mkdir HighContrast 32x32 48x48 64x64 256x256 512x512 HighContrast/22x22 HighContrast/24x24 HighContrast/32x32 HighContrast/48x48 HighContrast/256x256 HighContrast/512x512
+	echo "Converting icons to..."
+	echo "32x32"
+	mogrify -resize 32x32 -path 32x32 *.png
+	echo "48x48"
+	mogrify -resize 48x48 -path 48x48/ *.png
+	echo "64x64"
+	mogrify -resize 64x64 -path 64x64/ *.png
+	echo "256x256"
+	mogrify -resize 256x256 -path 256x256/ *.png
+	cp *.png 512x512/
+	cd HighContrast
+	echo "22x22 (B/W)"
+	mogrify -resize 22x22 -path 22x22/ *.png
+	echo "24x24 (B/W)"
+	mogrify -resize 24x24 -path 24x24/ *.png
+	echo "32x32 (B/W)"
+	mogrify -resize 32x32 -path 32x32/ *.png
+	echo "256x256 (B/W)"
+	mogrify -resize 256x256 -path 256x256/ *.png
+	cp *.png 512x512/
+	echo "Conversion done."
+	echo "Copying color icons.."
+	cd ../32x32
+	cp -Rf *.png /usr/share/icons/hicolor/32x32/apps/
+	cp -Rf *.png /usr/share/icons/hicolor/32x32/mimetypes/
+	cd ../48x48
+	cp -Rf *.png /usr/share/icons/hicolor/48x48/apps/
+	cd ../64x64
+	cp -Rf *.png /usr/share/icons/hicolor/64x64/apps/
+	cd ../256x256
+	cp -Rf *.png /usr/share/icons/hicolor/256x256/apps/
+	cd ../512x512
+	cp -Rf *.png /usr/share/icons/hicolor/512x512/apps/
+	echo "Copying B/W icons.."
+	cd ../HighContrast/22x22
+	cp -Rf *.png /usr/share/icons/HighContrast/22x22/apps/
+	cd ../24x24
+	cp -Rf *.png /usr/share/icons/HighContrast/24x24/apps/
+	cd ../32x32
+	cp -Rf *.png /usr/share/icons/HighContrast/32x32/apps/
+	cd ../48x48
+	cp -Rf *.png /usr/share/icons/HighContrast/48x48/apps/
+	cd ../256x256
+	cp -Rf *.png /usr/share/icons/HighContrast/256x256/apps/
+	cd ../512x512
+	cp -Rf *.png /usr/share/icons/HighContrast/512x512/apps/
+	cd ../
+	echo "Copying icons to mimetypes (this may take a while)..."
+	res="32x32"
+	type="hicolor"
+	while true; do
+		cd "../"$res"/" # \/ THESE SHOULD BE ln -s
+		cp libreoffice-draw.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-drawing-template.png"
+		cp libreoffice-writer.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-text-template.png"
+		cp libreoffice-impress.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-presentation.png"
+		cp libreoffice-math.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-formula.png"
+		cp libreoffice-impress.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-presentation.png"
+		cp libreoffice-misc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-master-document.png"
+		cp libreoffice-math.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-formula.png"
+		cp libreoffice-calc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-spreadsheet.png"
+		cp libreoffice-writer.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-text.png"
+		cp libreoffice-misc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-extension.png"
+		cp libreoffice-writer.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-text-template.png"
+		cp libreoffice-misc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-master-document.png"
+		cp libreoffice-base.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-database.png"
+		cp libreoffice-misc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-web-template.png"
+		cp libreoffice-calc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-spreadsheet-template.png"
+		cp libreoffice-draw.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-drawing.png"
+		cp libreoffice-writer.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-text.png"
+		cp libreoffice-draw.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-drawing-template.png"
+		cp libreoffice-impress.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-presentation-template.png"
+		cp libreoffice-draw.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-drawing.png"
+		cp libreoffice-base.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-database.png"
+		cp libreoffice-calc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-spreadsheet.png"
+		cp libreoffice-calc.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-spreadsheet-template.png"
+		cp libreoffice-impress.png "/usr/share/icons/"$type"/"$res"/mimetypes/libreoffice-oasis-presentation-template.png"
+		if [[ $res == "32x32" ]]; then
+			res="48x48";
+		elif [[ $res == "48x48" ]]; then
+			res="64x64";
+		elif [[ $res == "64x64" ]]; then
+			res="256x256";
+		elif [[ $res == "256x256" ]]; then
+			res="512x512";
+		elif [[ $res == "512x512" ]]; then
+			if [[ $type == "hicolor" ]]; then
+				type="gnome";
+				res="32x32";
+			elif [[ $type == "gnome" ]]; then
+				break
 			fi
-		done
-		echo "If everything went smoothly, you should have new icons installed."
-		echo "Enjoy! :>"
+		fi
+	done
+	echo "If everything went smoothly, you should have new icons installed."
+	echo "Enjoy! :>";echo "";
+	echo "PS: if something crashed, it doesn't mean that nothing was installed;"
+	echo "    basically some systems don't have icon folders for some resolutions,"
+	echo "    and that's why some copy errors may occur."
+	echo "    Please also make sure that you can write to /usr/, usually sudo will do."
 	fi
 fi
