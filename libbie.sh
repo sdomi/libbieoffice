@@ -140,8 +140,11 @@ if [[ $1 == "--all" || $2 == "--all" ]]; then
 			fi
 		fi
 	done
+	echo "Copying built-in LO icons.."
+	cp -Rf images_galaxy.zip /usr/share/libreoffice/share/config/images_galaxy.zip
+	echo "Done!";echo""
 	echo "If everything went smoothly, you should have new icons installed."
-	echo "Enjoy! :>";echo "";
+	echo "Enjoy! :>";echo ""
 	echo "PS: if something crashed, it doesn't mean that nothing was installed;"
 	echo "    basically some systems don't have icon folders for some resolutions,"
 	echo "    and that's why some copy errors may occur."
