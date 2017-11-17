@@ -140,6 +140,7 @@ if [[ $1 == "--all" || $2 == "--all" ]]; then
 			fi
 		fi
 	done
+	cd ..
 	echo "Copying built-in LO icons.."
 	cp -Rf images_galaxy.zip /usr/share/libreoffice/share/config/images_galaxy.zip
 	echo "Done!";echo""
