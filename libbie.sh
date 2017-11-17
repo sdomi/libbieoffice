@@ -1,4 +1,5 @@
 #!/bin/bash
+GH_REPOSITORY="https://github.com/redsPL/libbieoffice"
 if [[ $1 == "--help" || $1 == "-h" ]]; then
 	echo "libbie.sh - script for replacing LibreOffice images"
 	echo "libbie.sh needs priviliges to write to files in /usr/";echo "" # <-- too lazy to check how to do it properly
@@ -16,7 +17,7 @@ if [[ $1 == "--splash" || $2 == "--splash" || $1 == "--all" || $2 == "--all" ]];
 		cp intro.png.1 /usr/lib/libreoffice/program/intro.png # too lazy for an if
 	else
 		mkdir libbie_icons
-		wget "http://github.com/redsPL/libbieoffice/raw/master/intro.png" -O libbie_icons/intro.png -q
+		wget "$GH_REPOSITORY/raw/master/intro.png" -O libbie_icons/intro.png -q
 		cp libbie_icons/intro.png /usr/lib/libreoffice/program/intro.png
 		echo "Splash should now be installed!"
 fi
@@ -27,22 +28,22 @@ if [[ $1 == "--all" || $2 == "--all" ]]; then
 		mv intro.png intro.png.1
 		mkdir HighContrast 32x32 48x48 64x64 256x256 512x512 HighContrast/22x22 HighContrast/24x24 HighContrast/32x32 HighContrast/48x48 HighContrast/256x256 HighContrast/512x512
 		echo "Downloading icons..."
-		wget http://github.com/redsPL/libbieoffice/raw/master/libreoffice-base.png -q
-		wget http://github.com/redsPL/libbieoffice/raw/master/libreoffice-calc.png -q
-		wget http://github.com/redsPL/libbieoffice/raw/master/libreoffice-draw.png -q
-		wget http://github.com/redsPL/libbieoffice/raw/master/libreoffice-impress.png -q
-		wget http://github.com/redsPL/libbieoffice/raw/master/libreoffice-math.png -q
-		wget http://github.com/redsPL/libbieoffice/raw/master/libreoffice-writer.png -q
-		wget http://github.com/redsPL/libbieoffice/raw/master/libreoffice-misc.png -q
+		wget "$GH_REPOSITORY/raw/master/libreoffice-base.png" -q
+		wget "$GH_REPOSITORY/raw/master/libreoffice-calc.png" -q
+		wget "$GH_REPOSITORY/raw/master/libreoffice-draw.png" -q
+		wget "$GH_REPOSITORY/raw/master/libreoffice-impress.png" -q
+		wget "$GH_REPOSITORY/raw/master/libreoffice-math.png" -q
+		wget "$GH_REPOSITORY/raw/master/libreoffice-writer.png" -q
+		wget "$GH_REPOSITORY/raw/master/libreoffice-misc.png" -q
 		echo "Downloading High Contrast (B/W) icons..."
 		cd HighContrast
-		wget http://github.com/redsPL/libbieoffice/raw/master/HighContrast/libreoffice-base.png -q
-		wget http://github.com/redsPL/libbieoffice/raw/master/HighContrast/libreoffice-calc.png -q 
-		wget http://github.com/redsPL/libbieoffice/raw/master/HighContrast/libreoffice-draw.png -q
-		wget http://github.com/redsPL/libbieoffice/raw/master/HighContrast/libreoffice-impress.png -q 
-		wget http://github.com/redsPL/libbieoffice/raw/master/HighContrast/libreoffice-math.png -q
-		wget http://github.com/redsPL/libbieoffice/raw/master/HighContrast/libreoffice-writer.png -q
-		wget http://github.com/redsPL/libbieoffice/raw/master/HighContrast/libreoffice-misc.png -q
+		wget "$GH_REPOSITORY/raw/master/HighContrast/libreoffice-base.png" -q
+		wget "$GH_REPOSITORY/raw/master/HighContrast/libreoffice-calc.png" -q 
+		wget "$GH_REPOSITORY/raw/master/HighContrast/libreoffice-draw.png" -q
+		wget "$GH_REPOSITORY/raw/master/HighContrast/libreoffice-impress.png" -q 
+		wget "$GH_REPOSITORY/raw/master/HighContrast/libreoffice-math.png" -q
+		wget "$GH_REPOSITORY/raw/master/HighContrast/libreoffice-writer.png" -q
+		wget "$GH_REPOSITORY/raw/master/HighContrast/libreoffice-misc.png" -q
 		echo "OK, download done."
 		cd ..
 	fi
