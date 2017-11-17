@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 GH_REPOSITORY="https://github.com/redsPL/libbieoffice"
 if [[ $1 == "--help" || $1 == "-h" ]]; then
 	echo "libbie.sh - script for replacing LibreOffice images"
