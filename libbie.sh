@@ -42,10 +42,10 @@ if [[ $1 == "--splash" || $2 == "--splash" || $3 == "--splash" || $1 == "--all" 
 		if [[ $splash == "all" ]]; then
 			wget "$GH_REPOSITORY/raw/master/splash/default.png" -O libbie_icons/splash/default.png -q
 			wget "$GH_REPOSITORY/raw/master/splash/alt.png" -O libbie_icons/splash/alt.png -q
-			cp libbie_icons/default.png /usr/lib/libreoffice/program/intro.png
+			cp libbie_icons/splash/default.png /usr/lib/libreoffice/program/intro.png
 		else
 			wget "$GH_REPOSITORY/raw/master/splash/$splash.png" -O libbie_icons/splash/$splash.png -q
-			cp libbie_icons/$splash.png /usr/lib/libreoffice/program/intro.png
+			cp libbie_icons/splash/$splash.png /usr/lib/libreoffice/program/intro.png
 		fi
 		printf "Splash should now be installed!\n"
 		
@@ -75,7 +75,6 @@ if [[ $1 == "--all" || $2 == "--all" || $3 == "--all" ]]; then
 		printf "Downloading Built-in LibreOffice icons...\n0/1\r"
 		wget "$GH_REPOSITORY/raw/master/images_galaxy.zip" -q;printf "1/1 (DONE)\n"
 		printf "OK, download done.\n"
-		cd ..
 	fi
 	mkdir HighContrast 32x32 48x48 64x64 256x256 512x512 HighContrast/22x22 HighContrast/24x24 HighContrast/32x32 HighContrast/48x48 HighContrast/256x256 HighContrast/512x512
 	printf "Converting icons to...\n"
