@@ -1,5 +1,6 @@
 # LibbieOffice
 ![LibbieOffice splash](/splash/libbie_no8ch.png)
+
 Universal (if not, then fix and commit) LibreOffice image replacement script
 ## Usage
 Download and run just [libbie.sh](https://github.com/redspl/libbieoffice/raw/master/libbie.sh), or download the whole repo and run libbie.sh.
