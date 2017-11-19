@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
 GH_REPOSITORY="https://github.com/redsPL/libbieoffice"
-if [[ $1 == "--help" || $1 == "-h" ]]; then
-	printf "libbie.sh - script for replacing LibreOffice images\n"
-	printf "libbie.sh needs priviliges to write to files in /usr/\n"
-	printf "Syntax:\n"
-	printf "./libbie.sh [--splash (name) | --all] [--local]\n"
-	printf "Options:\n"
-	printf "--splash - replace ONLY splash screen\n"
-	printf "--all - replace icons and splash screen\n"
-	printf "--local - do not download images; assume files intro.png and libreoffice-[progname].png\n"
-	printf "          are in the working directory, HighContrast directory with b/w icons is present,\n"
-	printf "			and splash is in the splash directory.\n" # <-- customizeable in the future?
-	printf "Splash names:\n"
-	printf "default - the original splash with libbie instead of 5\n"
-	printf "alt - splash by KarlFish ( http://github.com/KarlFish )\n"
-	printf "all - download all splashes, install default. does nothing if executed with --local\n"
+if [[ $1 == "--help" || $1 == "-h" || $1 == "" ]]; then
+	echo "libbie.sh - script for replacing LibreOffice images"
+	echo "libbie.sh needs priviliges to write to files in /usr/"
+	echo "Syntax:"
+	echo "./libbie.sh [--all] [--local] [--splash (name)]"
+	echo "Options:"
+	echo "--splash - replace ONLY splash screen OR specify splash to be installed with --all"
+	echo "--all    - replace icons and splash screen"
+	echo "--local  - do not download images; assume files intro.png and libreoffice-[progname].png"
+	echo "           are in the working directory, HighContrast directory with b/w icons is present,"
+	echo "           and splashes are in the splash directory." # <-- customizeable in the future?
+	echo "Splash names:"
+	echo "default - LibbieOffice splash supplied by anon from 8ch.net/tech"
+	echo "libbie_blue - LibbieOffice splash supplied by the same anon; Blue eye version"
+	echo "libbie_no8ch, libbie_blue_no8ch - same as above, but without 8ch watermark"
+	echo "libre - the original splash with libbie instead of 5"
+	echo "libre_alt - splash by KarlFish ( http://github.com/KarlFish )"
+	echo "all - download all splashes, install default. does nothing if executed with --local"
 fi
 if [[ $1 == "--splash" || $2 == "--splash" || $3 == "--splash" || $1 == "--all" || $2 == "--all" || $3 == "--all" ]]; then
 	if [[ $1 == "--splash" ]]; then
@@ -41,7 +44,11 @@ if [[ $1 == "--splash" || $2 == "--splash" || $3 == "--splash" || $1 == "--all" 
 		printf "Downloading splash image(s)...\n"
 		if [[ $splash == "all" ]]; then
 			wget "$GH_REPOSITORY/raw/master/splash/default.png" -O libbie_icons/splash/default.png -q
-			wget "$GH_REPOSITORY/raw/master/splash/alt.png" -O libbie_icons/splash/alt.png -q
+			wget "$GH_REPOSITORY/raw/master/splash/libbie_blue.png" -O libbie_icons/splash/libbie_blue.png -q
+			wget "$GH_REPOSITORY/raw/master/splash/libbie_no8ch.png" - O libbie_icons/splash/libbie_no8ch.png -q
+			wget "$GH_REPOSITORY/raw/master/splash/libbie_blue_no8ch.png" - O libbie_icons/splash/libbie_blue_no8ch.png -q
+			wget "$GH_REPOSITORY/raw/master/splash/libre.png" - O libbie_icons/splash/libre.png -q
+			wget "$GH_REPOSITORY/raw/master/splash/libre_alt.png" - O libbie_icons/splash/libre_alt.png -q
 			cp libbie_icons/splash/default.png /usr/lib/libreoffice/program/intro.png
 		else
 			wget "$GH_REPOSITORY/raw/master/splash/$splash.png" -O libbie_icons/splash/$splash.png -q
