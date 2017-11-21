@@ -34,8 +34,12 @@ if [[ $1 == "--splash" || $2 == "--splash" || $3 == "--splash" || $1 == "--all" 
 	fi
 	if [[ $1 == "--local" || $2 == "--local" || $3 == "--local" ]]; then
 		if [[ $splash != "all" ]]; then
-			cp "splash/$splash.png" "/usr/lib/libreoffice/program/intro.png"
+			if [ -d /usr/lib/libreoffice/ ]; then
+				cp "splash/$splash.png" "/usr/lib/libreoffice/program/intro.png"
+			elif [ -d /usr/lib64/libreoffice/ ]; then
+				cp "splash/$splash.png" "/usr/lib64/libreoffice/program/intro.png"
 			printf "Splash should now be installed!\n"
+			fail="false";
 		else
 			printf "I've told you, i won't do a thing if executed with --local! :P\n"
 		fi
@@ -49,13 +53,25 @@ if [[ $1 == "--splash" || $2 == "--splash" || $3 == "--splash" || $1 == "--all" 
 			wget "$GH_REPOSITORY/raw/master/splash/libbie_blue_no8ch.png" - O libbie_icons/splash/libbie_blue_no8ch.png -q
 			wget "$GH_REPOSITORY/raw/master/splash/libre.png" - O libbie_icons/splash/libre.png -q
 			wget "$GH_REPOSITORY/raw/master/splash/libre_alt.png" - O libbie_icons/splash/libre_alt.png -q
-			cp libbie_icons/splash/default.png /usr/lib/libreoffice/program/intro.png
+			splash="default";
 		else
 			wget "$GH_REPOSITORY/raw/master/splash/$splash.png" -O libbie_icons/splash/$splash.png -q
-			cp libbie_icons/splash/$splash.png /usr/lib/libreoffice/program/intro.png
 		fi
-		printf "Splash should now be installed!\n"
-		
+		if [ -d /usr/lib/ ]; then
+			cp libbie_icons/splash/$splash.png /usr/lib/libreoffice/program/intro.png
+		elif [ -d /usr/lib64/ ]; then
+			cp libbie_icons/splash/$splash.png /usr/lib64/libreoffice/program/intro.png
+		else
+			fail="true";
+		fi
+		fail="false";
+	fi
+	if [[ $fail == "true" ]]; then
+		echo "/usr/lib/ or /usr/lib64/ doesn't exist!?"
+		echo "Splash copying failed :<"
+	else
+		echo "Splash should now be installed!"
+	fi
 fi
 if [[ $1 == "--all" || $2 == "--all" || $3 == "--all" ]]; then
 	if [[ $1 != "--local" && $2 != "--local" && $3 != "--local" ]]; then
