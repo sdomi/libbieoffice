@@ -7,11 +7,14 @@ Download and run just [libbie.sh](https://github.com/redspl/libbieoffice/raw/mas
 The script is designed to be portable - it creates a separate directory called libbie_icons, and then it downloads everything into it unless run with --local.
 
 ### Syntax
-./libbie.sh [--local] [--all] [--splash (splashname)]
+./libbie.sh [--local] [--all] [--splash (splashname)] [--theme] [--icons]
 
---local - do not download images; useful if you've downloaded the whole repo
---all - replace everything
---splash - replace just splash OR specify splash name to be installed with --all
+* --local - do not download images; useful if you've downloaded the whole repo
+* --all - replace everything
+* --splash - replace just splash OR specify splash name to be installed with --all
+* --theme - replace just the theme
+* --icons - replace just the icons
+
 
 Splash can be one of:
 * default - LibbieOffice splash supplied by anon from 8ch.net/tech

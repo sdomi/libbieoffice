@@ -10,11 +10,11 @@ if [[ $1 == "--help" || $1 == "-h" || $1 == "" ]]; then
 	echo "libbie.sh - script for replacing LibreOffice images"
 	echo "libbie.sh needs priviliges to write to files in /usr/"
 	echo "Syntax:"
-	echo "./libbie.sh [--all] [--local] [--splash (name)]"
+	echo "./libbie.sh [--all] [--local] [--splash (name)] [--icons] [--theme]"
 	echo "Options:"
 	echo "--splash - replace ONLY splash screen OR specify splash to be installed with --all"
-	echo "--icons  - replace ONLY icons OR specify icons to be installed with --all"
-	echo "--theme  - replace ONLY theme OR specify theme to be installed with --all"
+	echo "--icons  - replace ONLY icons" # different iconpacks and themes will come soon.
+	echo "--theme  - replace ONLY theme"
 	echo "--all    - replace icons and splash screen"
 	echo "--local  - do not download images; assume files intro.png and libreoffice-[progname].png"
 	echo "           are in the working directory, HighContrast directory with b/w icons is present,"
@@ -68,6 +68,16 @@ if [[ $1 == "--splash" || $2 == "--splash" || $3 == "--splash" || $4 == "--splas
 		fi
 		printf "Splash should now be installed!\n"
 	fi		
+fi
+if [[ $1 == "--theme" || $2 == "--theme" || $3 == "--theme" || $4 == "--theme" || $5 == "--theme" || $1 == "--all" || $2 == "--all" || $3 == "--all" || $4 == "--all" || $5 == "--all" ]]; then
+	if [[ $1 != "--local" && $2 != "--local" && $3 != "--local" ]]; then
+		mkdir libbie_icons libbie_icons/theme
+		cd libbie_icons/theme
+		printf "Downloading theme(s)...\n0/1\r"
+		wget "$GH_REPOSITORY/raw/master/images_galaxy.zip" -q;printf "1/1 (DONE)\n"
+	fi
+	cp -Rf images_galaxy.zip $LIBREOFFICE_SHARE_DIR/config/images_galaxy.zip
+	printf "Built-in icons should now be installed!\n"
 fi
 if [[ $1 == "--icons" || $2 == "--icons" || $3 == "--icons" || $4 == "--icons" || $5 == "--icons" || $1 == "--all" || $2 == "--all" || $3 == "--all" || $4 == "--all" || $5 == "--all" ]]; then
 	if [[ $1 != "--local" && $2 != "--local" && $3 != "--local" ]]; then
@@ -191,7 +201,6 @@ if [[ $1 == "--icons" || $2 == "--icons" || $3 == "--icons" || $4 == "--icons" |
 			fi
 		fi
 	done
-	printf "Done!\n"
 	printf "If everything went smoothly, you should have new icons installed.\n"
 	printf "Enjoy! :>\n"
 	printf "PS: if something crashed, it doesn't mean that installation failed;\n"
@@ -199,18 +208,4 @@ if [[ $1 == "--icons" || $2 == "--icons" || $3 == "--icons" || $4 == "--icons" |
 	printf "    and that's why some copy errors may occur.\n"
 	printf "    Please also make sure that you can write to /usr/, usually sudo will do.\n"
 fi
-if [[ $1 == "--theme" || $2 == "--theme" || $3 == "--theme" || $4 == "--theme" || $5 == "--theme" || $1 == "--all" || $2 == "--all" || $3 == "--all" || $4 == "--all" || $5 == "--all" ]]; then
-	if [[ $1 != "--local" && $2 != "--local" && $3 != "--local" ]]; then
-		mkdir libbie_theme
-		cd libbie_theme
-		printf "Downloading Theme...\n0/1\r"
-		wget "$GH_REPOSITORY/raw/master/images_galaxy.zip" -q;printf "1/1 (DONE)\n"
-		printf "OK, download done.\n"
-	fi
-	printf "Copying theme.. "
-	cp -Rf images_galaxy.zip $LIBREOFFICE_SHARE_DIR/config/images_galaxy.zip
-	printf "Done!\n"
-	printf "If everything went smoothly, you should have the new theme installed.\n"
-	printf "To use the new theme with libbreoffice, you can select by going to Tools > Options > View > Icon style and then select Galaxy\n";
-	printf "Enjoy! :>\n"
-fi
+
