@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 GH_REPOSITORY="https://github.com/redsPL/libbieoffice"
+LIBREOFFICE_PROGRAM_DIR=$(dirname $(readlink -f $(which libreoffice)))
+LIBREOFFICE_SHARE_DIR=$(dirname $LIBREOFFICE_PROGRAM_DIR)/share
+if [[ ! -d $LIBREOFFICE_SHARE_DIR ]]; then
+    LIBREOFFICE_SHARE_DIR=/usr/share/libreoffice/share; # Fallback to this directory
+fi
+
 if [[ $1 == "--help" || $1 == "-h" || $1 == "" ]]; then
 	echo "libbie.sh - script for replacing LibreOffice images"
 	echo "libbie.sh needs priviliges to write to files in /usr/"
@@ -7,6 +13,8 @@ if [[ $1 == "--help" || $1 == "-h" || $1 == "" ]]; then
 	echo "./libbie.sh [--all] [--local] [--splash (name)]"
 	echo "Options:"
 	echo "--splash - replace ONLY splash screen OR specify splash to be installed with --all"
+	echo "--icons  - replace ONLY icons OR specify icons to be installed with --all"
+	echo "--theme  - replace ONLY theme OR specify theme to be installed with --all"
 	echo "--all    - replace icons and splash screen"
 	echo "--local  - do not download images; assume files intro.png and libreoffice-[progname].png"
 	echo "           are in the working directory, HighContrast directory with b/w icons is present,"
@@ -19,13 +27,17 @@ if [[ $1 == "--help" || $1 == "-h" || $1 == "" ]]; then
 	echo "libre_alt - splash by KarlFish ( http://github.com/KarlFish )"
 	echo "all - download all splashes, install default. does nothing if executed with --local"
 fi
-if [[ $1 == "--splash" || $2 == "--splash" || $3 == "--splash" || $1 == "--all" || $2 == "--all" || $3 == "--all" ]]; then
+if [[ $1 == "--splash" || $2 == "--splash" || $3 == "--splash" || $4 == "--splash" || $5 == "--splash" || $1 == "--all" || $2 == "--all" || $3 == "--all" || $4 == "--all" || $5 == "--all" ]]; then
 	if [[ $1 == "--splash" ]]; then
 		splash=$2;
 	elif [[ $2 == "--splash" ]]; then
 		splash=$3;
 	elif [[ $3 == "--splash" ]]; then
-		splash=$4;
+	    splash=$4;
+	elif [[ $4 == "--splash" ]]; then
+		splash=$5;
+	elif [[ $5 == "--splash" ]]; then
+		splash=$6;
 	else
 		splash="default";
 	fi
@@ -34,12 +46,8 @@ if [[ $1 == "--splash" || $2 == "--splash" || $3 == "--splash" || $1 == "--all" 
 	fi
 	if [[ $1 == "--local" || $2 == "--local" || $3 == "--local" ]]; then
 		if [[ $splash != "all" ]]; then
-			if [ -d /usr/lib/libreoffice/ ]; then
-				cp "splash/$splash.png" "/usr/lib/libreoffice/program/intro.png"
-			elif [ -d /usr/lib64/libreoffice/ ]; then
-				cp "splash/$splash.png" "/usr/lib64/libreoffice/program/intro.png"
+			cp "splash/$splash.png" "$LIBREOFFICE_PROGRAM_DIR/intro.png"
 			printf "Splash should now be installed!\n"
-			fail="false";
 		else
 			printf "I've told you, i won't do a thing if executed with --local! :P\n"
 		fi
@@ -53,27 +61,15 @@ if [[ $1 == "--splash" || $2 == "--splash" || $3 == "--splash" || $1 == "--all" 
 			wget "$GH_REPOSITORY/raw/master/splash/libbie_blue_no8ch.png" - O libbie_icons/splash/libbie_blue_no8ch.png -q
 			wget "$GH_REPOSITORY/raw/master/splash/libre.png" - O libbie_icons/splash/libre.png -q
 			wget "$GH_REPOSITORY/raw/master/splash/libre_alt.png" - O libbie_icons/splash/libre_alt.png -q
-			splash="default";
+			cp libbie_icons/splash/default.png $LIBREOFFICE_PROGRAM_DIR/libreoffice/program/intro.png
 		else
 			wget "$GH_REPOSITORY/raw/master/splash/$splash.png" -O libbie_icons/splash/$splash.png -q
+			cp libbie_icons/splash/$splash.png $LIBREOFFICE_PROGRAM_DIR/intro.png
 		fi
-		if [ -d /usr/lib/ ]; then
-			cp libbie_icons/splash/$splash.png /usr/lib/libreoffice/program/intro.png
-		elif [ -d /usr/lib64/ ]; then
-			cp libbie_icons/splash/$splash.png /usr/lib64/libreoffice/program/intro.png
-		else
-			fail="true";
-		fi
-		fail="false";
-	fi
-	if [[ $fail == "true" ]]; then
-		echo "/usr/lib/ or /usr/lib64/ doesn't exist!?"
-		echo "Splash copying failed :<"
-	else
-		echo "Splash should now be installed!"
-	fi
+		printf "Splash should now be installed!\n"
+	fi		
 fi
-if [[ $1 == "--all" || $2 == "--all" || $3 == "--all" ]]; then
+if [[ $1 == "--icons" || $2 == "--icons" || $3 == "--icons" || $4 == "--icons" || $5 == "--icons" || $1 == "--all" || $2 == "--all" || $3 == "--all" || $4 == "--all" || $5 == "--all" ]]; then
 	if [[ $1 != "--local" && $2 != "--local" && $3 != "--local" ]]; then
 		mkdir libbie_icons mkdir libbie_icons/HighContrast
 		cd libbie_icons
@@ -195,9 +191,6 @@ if [[ $1 == "--all" || $2 == "--all" || $3 == "--all" ]]; then
 			fi
 		fi
 	done
-	cd ..
-	printf "Copying built-in LO icons.. "
-	cp -Rf images_galaxy.zip /usr/share/libreoffice/share/config/images_galaxy.zip
 	printf "Done!\n"
 	printf "If everything went smoothly, you should have new icons installed.\n"
 	printf "Enjoy! :>\n"
@@ -205,5 +198,19 @@ if [[ $1 == "--all" || $2 == "--all" || $3 == "--all" ]]; then
 	printf "    Some systems don't have icon folders for some resolutions,\n"
 	printf "    and that's why some copy errors may occur.\n"
 	printf "    Please also make sure that you can write to /usr/, usually sudo will do.\n"
+fi
+if [[ $1 == "--theme" || $2 == "--theme" || $3 == "--theme" || $4 == "--theme" || $5 == "--theme" || $1 == "--all" || $2 == "--all" || $3 == "--all" || $4 == "--all" || $5 == "--all" ]]; then
+	if [[ $1 != "--local" && $2 != "--local" && $3 != "--local" ]]; then
+		mkdir libbie_theme
+		cd libbie_theme
+		printf "Downloading Theme...\n0/1\r"
+		wget "$GH_REPOSITORY/raw/master/images_galaxy.zip" -q;printf "1/1 (DONE)\n"
+		printf "OK, download done.\n"
 	fi
+	printf "Copying theme.. "
+	cp -Rf images_galaxy.zip $LIBREOFFICE_SHARE_DIR/config/images_galaxy.zip
+	printf "Done!\n"
+	printf "If everything went smoothly, you should have the new theme installed.\n"
+	printf "To use the new theme with libbreoffice, you can select by going to Tools > Options > View > Icon style and then select Galaxy\n";
+	printf "Enjoy! :>\n"
 fi
