@@ -88,7 +88,7 @@ if [[ $theme == true ]]; then
 fi
 
 if [[ $icons == true ]]; then
-	if [[ $local == true ]]; then
+	if [[ $local != true ]]; then
 		mkdir libbie_icons mkdir libbie_icons/HighContrast
 		cd libbie_icons
 		printf "Downloading icons...\n"
