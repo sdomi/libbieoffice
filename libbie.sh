@@ -6,7 +6,7 @@ if [[ ! -d $LIBREOFFICE_SHARE_DIR ]]; then
     LIBREOFFICE_SHARE_DIR=/usr/share/libreoffice/share; # Fallback to this directory
 fi
 
-for (( i=1; i<7; i++ )); do
+for (( i=1; i<$#; i++ )); do
 	if [[ ${!i} == "--help" || ${!i} == "--icons" || ${!i} == "--theme" || ${!i} == "--local" ]]; then
 		j=$(echo ${!i} | cut -c 3-)
 		eval $j=true;
