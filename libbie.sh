@@ -17,7 +17,9 @@ for (( i=1; i<7; i++ )); do
 		theme=true;
 	elif [[ ${!i} == "--splash" ]]; then
 		splash=true;
-		splashName=${!(($i+1))}
+		i=$((i+1))
+		splashname=${!i}
+		echo "$i:${!i}"
 	elif [[ ${!i} == "" || !${!i} ]]; then
 		break
 	else
@@ -67,8 +69,9 @@ if [[ $splash == true ]]; then
 			wget "$GH_REPOSITORY/raw/master/splash/libre_alt.png" - O libbie_icons/splash/libre_alt.png -q
 			cp libbie_icons/splash/default.png $LIBREOFFICE_PROGRAM_DIR/libreoffice/program/intro.png
 		else
-			wget "$GH_REPOSITORY/raw/master/splash/$splash.png" -O libbie_icons/splash/$splash.png -q
-			cp libbie_icons/splash/$splash.png $LIBREOFFICE_PROGRAM_DIR/intro.png
+			echo $splashname
+			wget "$GH_REPOSITORY/raw/master/splash/$splashname.png" -O libbie_icons/splash/$splashname.png -q
+			cp libbie_icons/splash/$splashname.png $LIBREOFFICE_PROGRAM_DIR/intro.png
 		fi
 		printf "Splash should now be installed!\n"
 	fi
@@ -83,8 +86,9 @@ if [[ $theme == true ]]; then
 	cp -Rf images_galaxy.zip $LIBREOFFICE_SHARE_DIR/config/images_galaxy.zip
 	printf "Built-in icons should now be installed!\n"
 fi
-if [[ $1 == "--icons" || $2 == "--icons" || $3 == "--icons" || $4 == "--icons" || $5 == "--icons" || $1 == "--all" || $2 == "--all" || $3 == "--all" || $4 == "--all" || $5 == "--all" ]]; then
-	if [[ $1 != "--local" && $2 != "--local" && $3 != "--local" ]]; then
+
+if [[ $icons == true ]]; then
+	if [[ $local == true ]]; then
 		mkdir libbie_icons mkdir libbie_icons/HighContrast
 		cd libbie_icons
 		printf "Downloading icons...\n"
