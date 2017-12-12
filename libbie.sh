@@ -6,16 +6,36 @@ if [[ ! -d $LIBREOFFICE_SHARE_DIR ]]; then
     LIBREOFFICE_SHARE_DIR=/usr/share/libreoffice/share; # Fallback to this directory
 fi
 
-if [[ $1 == "--help" || $1 == "-h" || $1 == "" ]]; then
+for (( i=1; i<7; i++ )); do
+	if [[ ${!i} == "--help" || ${!i} == "--icons" || ${!i} == "--theme" || ${!i} == "--local" ]]; then
+		j=$(echo ${!i} | cut -c 3-)
+		eval $j=true;
+	elif [[ ${!i} == "--all" ]]; then
+		splash=true;
+		splashname="default";
+		icons=true;
+		theme=true;
+	elif [[ ${!i} == "--splash" ]]; then
+		splash=true;
+		splashName=${!(($i+1))}
+	elif [[ ${!i} == "" || !${!i} ]]; then
+		break
+	else
+		echo "Unknown parameter: ${!i} :<"
+		break
+	fi
+done
+
+if [[ $help == true ]]; then
 	echo "libbie.sh - script for replacing LibreOffice images"
 	echo "libbie.sh needs priviliges to write to files in /usr/"
 	echo "Syntax:"
-	echo "./libbie.sh [--all] [--local] [--splash (name)] [--icons] [--theme]"
+	echo "$0 [--all] [--local] [--splash (name)] [--icons] [--theme]"
 	echo "Options:"
-	echo "--splash - replace ONLY splash screen OR specify splash to be installed with --all"
+	echo "--splash - replace ONLY splash screen OR specify splash to be installed with --all"  #!
 	echo "--icons  - replace ONLY icons" # different iconpacks and themes will come soon.
 	echo "--theme  - replace ONLY theme"
-	echo "--all    - replace icons and splash screen"
+	echo "--all    - replace icons, splash screen and theme"
 	echo "--local  - do not download images; assume files intro.png and libreoffice-[progname].png"
 	echo "           are in the working directory, HighContrast directory with b/w icons is present,"
 	echo "           and splashes are in the splash directory." # <-- customizeable in the future?
@@ -27,34 +47,18 @@ if [[ $1 == "--help" || $1 == "-h" || $1 == "" ]]; then
 	echo "libre_alt - splash by KarlFish ( http://github.com/KarlFish )"
 	echo "all - download all splashes, install default. does nothing if executed with --local"
 fi
-if [[ $1 == "--splash" || $2 == "--splash" || $3 == "--splash" || $4 == "--splash" || $5 == "--splash" || $1 == "--all" || $2 == "--all" || $3 == "--all" || $4 == "--all" || $5 == "--all" ]]; then
-	if [[ $1 == "--splash" ]]; then
-		splash=$2;
-	elif [[ $2 == "--splash" ]]; then
-		splash=$3;
-	elif [[ $3 == "--splash" ]]; then
-	    splash=$4;
-	elif [[ $4 == "--splash" ]]; then
-		splash=$5;
-	elif [[ $5 == "--splash" ]]; then
-		splash=$6;
-	else
-		splash="default";
-	fi
-	if [[ $splash == "" ]]; then
-		splash="default";
-	fi
-	if [[ $1 == "--local" || $2 == "--local" || $3 == "--local" ]]; then
-		if [[ $splash != "all" ]]; then
-			cp "splash/$splash.png" "$LIBREOFFICE_PROGRAM_DIR/intro.png"
-			printf "Splash should now be installed!\n"
-		else
-			printf "I've told you, i won't do a thing if executed with --local! :P\n"
+
+if [[ $splash == true ]]; then
+	if [[ $local == true && $splashname != "all" ]]; then
+		if [[ $splashname == "" || !$splashname ]]; then
+			splashname = "default";
 		fi
+		cp "splash/$splashname.png" "$LIBREOFFICE_PROGRAM_DIR/intro.png"
+		printf "Splash should now be installed!\n"
 	else
 		mkdir libbie_icons libbie_icons/splash
 		printf "Downloading splash image(s)...\n"
-		if [[ $splash == "all" ]]; then
+		if [[ $splashname == "all" ]]; then
 			wget "$GH_REPOSITORY/raw/master/splash/default.png" -O libbie_icons/splash/default.png -q
 			wget "$GH_REPOSITORY/raw/master/splash/libbie_blue.png" -O libbie_icons/splash/libbie_blue.png -q
 			wget "$GH_REPOSITORY/raw/master/splash/libbie_no8ch.png" - O libbie_icons/splash/libbie_no8ch.png -q
@@ -67,10 +71,10 @@ if [[ $1 == "--splash" || $2 == "--splash" || $3 == "--splash" || $4 == "--splas
 			cp libbie_icons/splash/$splash.png $LIBREOFFICE_PROGRAM_DIR/intro.png
 		fi
 		printf "Splash should now be installed!\n"
-	fi		
+	fi
 fi
-if [[ $1 == "--theme" || $2 == "--theme" || $3 == "--theme" || $4 == "--theme" || $5 == "--theme" || $1 == "--all" || $2 == "--all" || $3 == "--all" || $4 == "--all" || $5 == "--all" ]]; then
-	if [[ $1 != "--local" && $2 != "--local" && $3 != "--local" ]]; then
+if [[ $theme == true ]]; then
+	if [[ $local == true ]]; then
 		mkdir libbie_icons libbie_icons/theme
 		cd libbie_icons/theme
 		printf "Downloading theme(s)...\n0/1\r"
