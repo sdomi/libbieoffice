@@ -45,6 +45,7 @@ if [[ $help == true ]]; then
 	echo "default - LibbieOffice splash supplied by anon from 8ch.net/tech"
 	echo "libbie_blue - LibbieOffice splash supplied by the same anon; Blue eye version"
 	echo "libbie_no8ch, libbie_blue_no8ch - same as above, but without 8ch watermark"
+	echo "libbie_o7, libbie-highres_o7 - LibbieOffice splash for version 7"
 	echo "libre - the original splash with libbie instead of 5"
 	echo "libre_alt - splash by KarlFish ( http://github.com/KarlFish )"
 	echo "all - download all splashes, install default. does nothing if executed with --local"
@@ -65,6 +66,8 @@ if [[ $splash == true ]]; then
 			wget "$GH_REPOSITORY/raw/master/splash/libbie_blue.png" -O libbie_icons/splash/libbie_blue.png -q
 			wget "$GH_REPOSITORY/raw/master/splash/libbie_no8ch.png" - O libbie_icons/splash/libbie_no8ch.png -q
 			wget "$GH_REPOSITORY/raw/master/splash/libbie_blue_no8ch.png" - O libbie_icons/splash/libbie_blue_no8ch.png -q
+			wget "$GH_REPOSITORY/raw/master/splash/libbie_o7.png" - O libbie_icons/splash/libbie_o7.png -q
+			wget "$GH_REPOSITORY/raw/master/splash/libbie-highres_o7.png" - O libbie_icons/splash/libbie-highres_o7.png -q
 			wget "$GH_REPOSITORY/raw/master/splash/libre.png" - O libbie_icons/splash/libre.png -q
 			wget "$GH_REPOSITORY/raw/master/splash/libre_alt.png" - O libbie_icons/splash/libre_alt.png -q
 			cp libbie_icons/splash/default.png $LIBREOFFICE_PROGRAM_DIR/libreoffice/program/intro.png
