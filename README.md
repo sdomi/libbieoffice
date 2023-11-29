@@ -20,6 +20,7 @@ Splash can be one of:
 * default - LibbieOffice splash supplied by anon from 8ch.net/tech
 * libbie_blue - LibbieOffice splash supplied by the same anon; Blue eye version
 * libbie_no8ch, libbie_blue_no8ch - same as above, but without 8ch watermark
+* libbie_o7, libbie-highres_o7 - LibbieOffice splash for version 7
 * libre - the original splash with Libbie instead of 5
 * libre_alt - splash by [KarlFish](https://github.com/KarlFish)
 * all - download all splashes, install default. does nothing if executed with --local
